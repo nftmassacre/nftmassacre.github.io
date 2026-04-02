@@ -4747,7 +4747,6 @@ const playCelebrationSound = () => {
             this.avatarReady = false;
             this.startupWarmupStarted = false;
             this.startupWarmupReady = false;
-            this.startupWarmupFailed = false;
             this.audioStateCheckAccumulator = 0;
             this.streetLampLightCheckAccumulator = 0;
             this.streetLampLightCheckInterval = 0.35;
@@ -4755,28 +4754,15 @@ const playCelebrationSound = () => {
             this.ambientBubbleCheckAccumulator = 0;
             this.ambientBubbleCheckInterval = this.mobilePerformanceMode ? MOBILE_PERF.ambientBubbleCheckInterval : 0.65;
             this.hasPanickingWalletNpcs = false;
-            this.hideLoadingOverlay = () => {
-                loadingOverlay?.classList.add('hidden');
-            };
             this.checkLoadingOverlay = () => {
                 if (!this.startupWarmupStarted && this.sceneReady && this.avatarReady) {
-                    void this.runStartupWarmup().catch((error) => {
-                        this.startupWarmupFailed = true;
-                        console.warn('[chainworld] startup warmup failed', error);
-                        this.hideLoadingOverlay();
-                    });
+                    void this.runStartupWarmup();
                     return;
                 }
-                if (this.sceneReady && this.avatarReady && (this.startupWarmupReady || this.startupWarmupFailed)) {
-                    this.hideLoadingOverlay();
+                if (this.sceneReady && this.avatarReady && this.startupWarmupReady) {
+                    loadingOverlay?.classList.add('hidden');
                 }
             };
-            this.loadingOverlayFallbackTimer = window.setTimeout(() => {
-                if (this.sceneReady) {
-                    console.warn('[chainworld] forcing loading overlay closed after startup timeout');
-                    this.hideLoadingOverlay();
-                }
-            }, 8000);
             this.controls.onAvatarReady = () => {
                 this.avatarReady = true;
                 this.checkLoadingOverlay();
@@ -4874,30 +4860,24 @@ const playCelebrationSound = () => {
         async runStartupWarmup() {
             if (this.startupWarmupStarted) return;
             this.startupWarmupStarted = true;
+            this.world.updateDayNight(0, true);
+            this.updateStreetLampLights(0, true);
+            this.controls.update(0);
+            this.npc?.update(0);
             try {
-                this.world.updateDayNight(0, true);
-                this.updateStreetLampLights(0, true);
-                this.controls.update(0);
-                this.npc?.update(0);
                 if (typeof renderer.compileAsync === 'function') {
                     await renderer.compileAsync(scene, camera);
                 } else if (typeof renderer.compile === 'function') {
                     renderer.compile(scene, camera);
                 }
-                renderer.render(scene, camera);
-                this.css3dScreen.update();
-                await new Promise((resolve) => window.requestAnimationFrame(resolve));
-                this.startupWarmupReady = true;
             } catch (error) {
-                this.startupWarmupFailed = true;
                 console.warn('[chainworld] startup shader warmup failed', error);
-            } finally {
-                if (this.loadingOverlayFallbackTimer) {
-                    window.clearTimeout(this.loadingOverlayFallbackTimer);
-                    this.loadingOverlayFallbackTimer = null;
-                }
-                this.checkLoadingOverlay();
             }
+            renderer.render(scene, camera);
+            this.css3dScreen.update();
+            await new Promise((resolve) => window.requestAnimationFrame(resolve));
+            this.startupWarmupReady = true;
+            this.checkLoadingOverlay();
         }
 
         bindEvents() {
