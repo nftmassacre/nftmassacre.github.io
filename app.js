@@ -177,8 +177,45 @@ const playKillSound = () => {
 };
 
 const killOverlayLabel = typeof document !== 'undefined' ? document.getElementById('kill-overlay-label') : null;
+const aboutOverlay = typeof document !== 'undefined' ? document.getElementById('about-overlay') : null;
+const aboutToggleButton = typeof document !== 'undefined' ? document.getElementById('about-toggle') : null;
+const aboutCloseButton = typeof document !== 'undefined' ? document.getElementById('about-close') : null;
 let killOverlayTimerId = null;
-const showKillOverlay = (message = 'Kill All NFTs', duration = 2400) => {
+const setAboutOverlayOpen = (isOpen) => {
+    if (!aboutOverlay) return;
+    aboutOverlay.classList.toggle('hidden', !isOpen);
+    aboutOverlay.setAttribute('aria-hidden', String(!isOpen));
+    document.body.classList.toggle('about-open', isOpen);
+};
+
+if (aboutToggleButton && aboutOverlay) {
+    aboutToggleButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        setAboutOverlayOpen(true);
+    });
+}
+
+if (aboutCloseButton) {
+    aboutCloseButton.addEventListener('click', () => setAboutOverlayOpen(false));
+}
+
+if (aboutOverlay) {
+    aboutOverlay.addEventListener('click', (event) => {
+        if (event.target === aboutOverlay) {
+            setAboutOverlayOpen(false);
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !aboutOverlay.classList.contains('hidden')) {
+            event.preventDefault();
+            event.stopPropagation();
+            setAboutOverlayOpen(false);
+        }
+    }, true);
+}
+
+const showKillOverlay = (message = 'Kill All NFTs in your wallet', duration = 2400) => {
     if (!killOverlay) return;
     if (killOverlayLabel) {
         killOverlayLabel.textContent = message;
@@ -2082,7 +2119,7 @@ const playCelebrationSound = () => {
                 })
             );
             terrain.rotation.z = Math.PI * 0.5;
-            terrain.name = 'chainworldTerrainShell';
+            terrain.name = 'nftMassacreTerrainShell';
             this.scene.add(terrain);
             this.dayNightTerrainMaterial = terrain.material;
             this.registerGroundPick(terrain);
@@ -2821,7 +2858,7 @@ const playCelebrationSound = () => {
                 const urlInput = document.getElementById('url-input');
                 if (urlInput) urlInput.value = url;
             } catch (e) {
-                console.error('[chainworld] Error loading URL:', e);
+                console.error('[nft-massacre] Error loading URL:', e);
             }
             this.lastWarningUrl = '';
             this.loadTimer = window.setTimeout(() => {
@@ -2829,7 +2866,7 @@ const playCelebrationSound = () => {
                 if (this.embedWarningMode === 'toast') {
                     this.showToast('This site may block embedding. Try another URL if the screen stays blank.');
                 }
-                console.warn('[chainworld] iframe might be blocked or slow:', this.urlRequested);
+                console.warn('[nft-massacre] iframe might be blocked or slow:', this.urlRequested);
             }, 6000);
         }
 
@@ -2951,7 +2988,7 @@ const playCelebrationSound = () => {
 
         loadAvatar() {
             if (!GLTFLoader) {
-                console.error('[chainworld] GLTFLoader unavailable; third-person avatar did not load');
+                console.error('[nft-massacre] GLTFLoader unavailable; third-person avatar did not load');
                 return;
             }
             const loader = new GLTFLoader();
@@ -3012,7 +3049,7 @@ const playCelebrationSound = () => {
                     this.onAvatarReady?.();
                 },
                 undefined,
-                (error) => console.error('[chainworld] player avatar failed to load', error)
+                (error) => console.error('[nft-massacre] player avatar failed to load', error)
             );
         }
 
@@ -3964,7 +4001,7 @@ const playCelebrationSound = () => {
 
         loadAvatar() {
             if (!GLTFLoader) {
-                console.error('[chainworld] GLTFLoader unavailable; wandering NPC did not load');
+                console.error('[nft-massacre] GLTFLoader unavailable; wandering NPC did not load');
                 this.resolveReady?.(null);
                 this.resolveReady = null;
                 return;
@@ -4001,7 +4038,7 @@ const playCelebrationSound = () => {
                     this.resolveReady = null;
                 },
                 (error) => {
-                    console.error(`[chainworld] ${this.options.logLabel} failed to load`, error);
+                    console.error(`[nft-massacre] ${this.options.logLabel} failed to load`, error);
                     this.resolveReady?.(null);
                     this.resolveReady = null;
                 }
@@ -4250,7 +4287,7 @@ const playCelebrationSound = () => {
                     }
                     return true;
                 } catch (error) {
-                    console.warn('[chainworld] npc monitor nft texture failed', candidate, error);
+                    console.warn('[nft-massacre] npc monitor nft texture failed', candidate, error);
                 }
             }
 
@@ -4871,7 +4908,7 @@ const playCelebrationSound = () => {
                     renderer.compile(scene, camera);
                 }
             } catch (error) {
-                console.warn('[chainworld] startup shader warmup failed', error);
+                console.warn('[nft-massacre] startup shader warmup failed', error);
             }
             renderer.render(scene, camera);
             this.css3dScreen.update();
@@ -5174,7 +5211,7 @@ const playCelebrationSound = () => {
                 this.world.placeImportedObject(object, placement, file.name);
                 this.css3dScreen.showToast(`Placed ${file.name}`);
             } catch (error) {
-                console.error('[chainworld] asset import failed', error);
+                console.error('[nft-massacre] asset import failed', error);
                 this.css3dScreen.showToast(`Could not load ${file.name}`);
             }
         }
@@ -5289,7 +5326,7 @@ const playCelebrationSound = () => {
                     });
                     return true;
                 } catch (error) {
-                    console.warn('[chainworld] nft texture failed', candidate, error);
+                    console.warn('[nft-massacre] nft texture failed', candidate, error);
                 }
             }
             return false;
@@ -5303,7 +5340,7 @@ const playCelebrationSound = () => {
                 this.clearWalletNpcs();
                 this.restoreDefaultNpc();
                 this.updateWalletQuery('');
-                setWalletStatus('Enter an Ethereum address to spawn NFT NPCs near the starting area.', false);
+                setWalletStatus('Enter an Ethereum address to spawn NFT NPCs into NFT Massacre.', false);
                 return;
             }
 

@@ -97,10 +97,51 @@ body {
     z-index: 100;
 }
 
+.hud-topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.title-group {
+    min-width: 0;
+}
+
 #title {
     font-size: 18px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+}
+
+#subtitle {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.35;
+    letter-spacing: 0.04em;
+    color: rgba(49, 64, 74, 0.74);
+}
+
+.info-button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(49, 64, 74, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #22313c;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    flex: none;
+}
+
+.info-button:hover,
+.info-button:focus-visible {
+    background: #ffffff;
+    outline: 2px solid rgba(87, 136, 182, 0.35);
+    outline-offset: 1px;
 }
 
 #hint {
@@ -238,6 +279,24 @@ body.locked #hud {
     color: #ffffff;
 }
 
+.overlay .overlay-card.loading-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+}
+
+.overlay-title {
+    font-size: 22px;
+}
+
+.overlay-subtitle {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    color: rgba(255, 255, 255, 0.82);
+}
+
 .overlay .overlay-card.kill {
     background: rgba(150, 0, 0, 0.92);
     border: 2px solid rgba(255, 55, 55, 0.8);
@@ -245,6 +304,84 @@ body.locked #hud {
 
 .overlay.hidden {
     opacity: 0;
+}
+
+.about-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 650;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(7, 12, 18, 0.6);
+    backdrop-filter: blur(10px);
+    transition: opacity 0.25s ease;
+}
+
+.about-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.about-card {
+    position: relative;
+    width: min(92vw, 520px);
+    padding: 24px 24px 22px;
+    border-radius: 20px;
+    background: rgba(250, 252, 255, 0.96);
+    border: 1px solid rgba(87, 136, 182, 0.18);
+    box-shadow: 0 28px 56px rgba(14, 32, 48, 0.28);
+    color: #22313c;
+}
+
+.about-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(87, 136, 182, 0.12);
+    color: #335678;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.about-card h2 {
+    margin-top: 14px;
+    font-size: 24px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.about-card p {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(34, 49, 60, 0.88);
+}
+
+.about-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border: 0;
+    border-radius: 10px;
+    padding: 8px 10px;
+    background: rgba(51, 86, 120, 0.1);
+    color: #335678;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.about-close:hover,
+.about-close:focus-visible {
+    background: rgba(51, 86, 120, 0.16);
+    outline: 2px solid rgba(87, 136, 182, 0.35);
+    outline-offset: 1px;
 }
 
 #mobile-controls {
@@ -326,8 +463,26 @@ body.screen-mode #mobile-controls {
         font-size: 16px;
     }
 
+    #subtitle {
+        font-size: 11px;
+    }
+
     #hint {
         font-size: 13px;
+    }
+
+    .info-button {
+        width: 32px;
+        height: 32px;
+        font-size: 17px;
+    }
+
+    .about-card {
+        padding: 22px 18px 18px;
+    }
+
+    .about-card h2 {
+        font-size: 20px;
     }
 
     .wallet-form-overlay {

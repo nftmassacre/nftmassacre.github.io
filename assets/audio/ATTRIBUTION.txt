@@ -1,4 +1,4 @@
-Chainworld audio sources
+NFT Massacre audio sources
 
 Files used by the game runtime:
 
