@@ -7,7 +7,7 @@ import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { VOXLoader, VOXMesh } from 'three/addons/loaders/VOXLoader.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
-import { loadWalletData } from '../walletloader/app.js';
+import { loadWalletData } from './walletloader/app.js';
 
 const loadingOverlay = typeof document !== 'undefined' ? document.getElementById('loading-overlay') : null;
 const killOverlay = typeof document !== 'undefined' ? document.getElementById('kill-overlay') : null;
