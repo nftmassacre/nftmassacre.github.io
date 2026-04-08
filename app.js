@@ -7,7 +7,7 @@ import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { VOXLoader, VOXMesh } from 'three/addons/loaders/VOXLoader.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
-import { detectWalletChain, getChainMeta, loadWalletData } from './walletloader/app.js?v=20260408multichain3';
+import { detectWalletChain, getChainMeta, loadWalletData, SOLANA_DEMO_WALLET } from './walletloader/app.js?v=20260408multichain4';
 
 const loadingOverlay = typeof document !== 'undefined' ? document.getElementById('loading-overlay') : null;
 const killOverlay = typeof document !== 'undefined' ? document.getElementById('kill-overlay') : null;
@@ -5242,7 +5242,10 @@ const playCelebrationSound = () => {
 
         restoreWalletFromQuery() {
             if (!this.walletAddressInput) return;
-            const presetAddress = new URL(window.location.href).searchParams.get('wallet');
+            const url = new URL(window.location.href);
+            const presetAddress = url.searchParams.get('wallet') || (
+                url.searchParams.get('solanademo') === 'yes' ? SOLANA_DEMO_WALLET : ''
+            );
             if (!presetAddress) return;
             this.walletAddressInput.value = presetAddress;
             this.loadWalletNfts(presetAddress);

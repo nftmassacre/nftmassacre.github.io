@@ -2,6 +2,7 @@ const ETHPLORER_URL = "https://api.ethplorer.io/getAddressInfo";
 const ETHPLORER_KEY = "freekey";
 const ALCHEMY_NFT_URL = "https://eth-mainnet.g.alchemy.com/nft/v2/demo/getNFTsForOwner";
 const ALCHEMY_NFT_PAGE_SIZE = 50;
+const SOLANA_DEMO_WALLET = "86xCnPeV69n6t3DnyGvkKobf9FdN2H9oiVDdaMpo2MMY";
 const ETHERSCAN_ADDRESS_URL = "https://etherscan.io/address/";
 const ETHERSCAN_TOKEN_URL = "https://etherscan.io/token/";
 const TRUSTWALLET_ETH_LOGO = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png";
@@ -1267,7 +1268,8 @@ export {
   fetchEthereumNfts as fetchNfts,
   getChainMeta,
   loadWalletData,
-  normalizeEthereumNft as normalizeNft
+  normalizeEthereumNft as normalizeNft,
+  SOLANA_DEMO_WALLET
 };
 
 if (walletForm && addressInput) {
@@ -1276,7 +1278,10 @@ if (walletForm && addressInput) {
     loadWallet(addressInput.value);
   });
 
-  const presetAddress = new URL(window.location.href).searchParams.get("address");
+  const url = new URL(window.location.href);
+  const presetAddress = url.searchParams.get("address") || (
+    url.searchParams.get("solanademo") === "yes" ? SOLANA_DEMO_WALLET : ""
+  );
   if (presetAddress) {
     addressInput.value = presetAddress;
     loadWallet(presetAddress);
