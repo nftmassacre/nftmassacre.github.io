@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NFT Massacre</title>
-    <link rel="stylesheet" href="styles.css?v=20260326mobileprod1">
+    <link rel="stylesheet" href="styles.css?v=20260408multichain3">
 </head>
 <body>
     <div id="url-overlay">
@@ -24,10 +24,11 @@
         </div>
         <div id="hint">Click to walk, move the mouse to look, WASD to move, ESC to free the cursor. Press Space to jump and left click to punch.</div>
         <form id="wallet-form" class="wallet-form-overlay">
-            <input id="wallet-address-input" type="text" placeholder="0x... spawn NFT NPCs" autocomplete="off" spellcheck="false">
+            <input id="wallet-address-input" type="text" placeholder="Ethereum or Solana wallet... spawn NFT NPCs" autocomplete="off" spellcheck="false">
             <button type="submit">Load NFTs</button>
         </form>
-        <div id="wallet-status" class="wallet-status">Enter an Ethereum address to spawn NFT NPCs into NFT Massacre.</div>
+        <div id="wallet-chain-indicator" class="chain-indicator" hidden></div>
+        <div id="wallet-status" class="wallet-status">Enter an Ethereum or Solana address to spawn NFT NPCs into NFT Massacre.</div>
         <div id="target-label">Current target: <span id="current-target-name">None</span><img id="current-target-preview" src="" alt="target preview"></div>
     </div>
     <div id="toast-container"></div>
@@ -60,6 +61,7 @@
     <input type="file" id="world-object-input" accept=".glb,.gltf,.obj,.fbx,.stl,.ply,.vox" hidden>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js"></script>
     <script type="importmap">
         {
             "imports": {
@@ -68,6 +70,6 @@
             }
         }
     </script>
-    <script type="module" src="app.js?v=20260326mobileprod1"></script>
+    <script type="module" src="app.js?v=20260408multichain3"></script>
 </body>
 </html>

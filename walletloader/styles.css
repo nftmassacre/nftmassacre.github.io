@@ -109,6 +109,42 @@ body {
   color: var(--muted);
 }
 
+.chain-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chain-indicator__icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+}
+
+.chain-indicator__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chain-indicator.is-ethereum {
+  box-shadow: inset 0 0 0 1px rgba(98, 126, 234, 0.14);
+}
+
+.chain-indicator.is-solana {
+  box-shadow: inset 0 0 0 1px rgba(20, 205, 165, 0.14);
+}
+
 .summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

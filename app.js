@@ -7,7 +7,7 @@ import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { VOXLoader, VOXMesh } from 'three/addons/loaders/VOXLoader.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
-import { loadWalletData } from './walletloader/app.js';
+import { detectWalletChain, getChainMeta, loadWalletData } from './walletloader/app.js?v=20260408multichain3';
 
 const loadingOverlay = typeof document !== 'undefined' ? document.getElementById('loading-overlay') : null;
 const killOverlay = typeof document !== 'undefined' ? document.getElementById('kill-overlay') : null;
@@ -278,6 +278,7 @@ const playCelebrationSound = () => {
     const hint = document.getElementById('hint');
     const walletForm = document.getElementById('wallet-form');
     const walletAddressInput = document.getElementById('wallet-address-input');
+    const walletChainIndicator = document.getElementById('wallet-chain-indicator');
     const walletStatus = document.getElementById('wallet-status');
 
     const renderer = new THREE.WebGLRenderer({
@@ -450,6 +451,29 @@ const playCelebrationSound = () => {
         if (!walletStatus) return;
         walletStatus.textContent = message;
         walletStatus.classList.toggle('error', Boolean(isError));
+    };
+
+    const setWalletChainIndicator = (chain) => {
+        if (!walletChainIndicator) return;
+        if (!chain) {
+            walletChainIndicator.hidden = true;
+            walletChainIndicator.className = 'chain-indicator';
+            walletChainIndicator.innerHTML = '';
+            return;
+        }
+        const chainMeta = getChainMeta(chain);
+        if (!chainMeta) {
+            walletChainIndicator.hidden = true;
+            walletChainIndicator.className = 'chain-indicator';
+            walletChainIndicator.innerHTML = '';
+            return;
+        }
+        walletChainIndicator.hidden = false;
+        walletChainIndicator.className = `chain-indicator ${chainMeta.className}`;
+        walletChainIndicator.innerHTML = `
+            <span class="chain-indicator__icon" aria-hidden="true">${chainMeta.iconSvg}</span>
+            <span class="chain-indicator__label">${chainMeta.label}</span>
+        `;
     };
 
     const shortWalletAddress = (address) => (
@@ -5340,11 +5364,23 @@ const playCelebrationSound = () => {
                 this.clearWalletNpcs();
                 this.restoreDefaultNpc();
                 this.updateWalletQuery('');
-                setWalletStatus('Enter an Ethereum address to spawn NFT NPCs into NFT Massacre.', false);
+                setWalletChainIndicator(null);
+                setWalletStatus('Enter an Ethereum or Solana address to spawn NFT NPCs into NFT Massacre.', false);
                 return;
             }
 
-            setWalletStatus('Loading wallet NFTs into the neighborhood...');
+            const detectedChain = detectWalletChain(inputAddress);
+            if (!detectedChain) {
+                this.world.clearNftDisplays();
+                this.clearWalletNpcs();
+                this.restoreDefaultNpc();
+                setWalletChainIndicator(null);
+                setWalletStatus('That is not a valid Ethereum or Solana address.', true);
+                return;
+            }
+
+            setWalletChainIndicator(detectedChain.chain);
+            setWalletStatus(`Loading ${getChainMeta(detectedChain.chain)?.label || 'wallet'} NFTs into the neighborhood...`);
 
             let walletData;
             try {
@@ -5363,18 +5399,19 @@ const playCelebrationSound = () => {
             const nfts = walletData.nfts;
             this.world.clearNftDisplays();
             this.updateWalletQuery(walletData.address);
+            setWalletChainIndicator(walletData.chain);
 
             if (!nfts.length) {
                 this.clearWalletNpcs();
                 this.restoreDefaultNpc();
                 this.npc.showRandomWalletNft([]);
-                setWalletStatus(`No NFTs found for ${shortWalletAddress(walletData.address)}.`, false);
+                setWalletStatus(`No NFTs found for ${shortWalletAddress(walletData.address)} on ${getChainMeta(walletData.chain)?.label || 'that chain'}.`, false);
                 this.css3dScreen.showToast('No NFTs found for that wallet');
                 return;
             }
 
             const placements = this.world.reserveNftPlacements(nfts.length, walletData.address);
-            setWalletStatus(`Spawning ${nfts.length} NFT NPCs for ${shortWalletAddress(walletData.address)}...`);
+            setWalletStatus(`Spawning ${nfts.length} ${getChainMeta(walletData.chain)?.label || 'wallet'} NFT NPCs for ${shortWalletAddress(walletData.address)}...`);
             const imageCount = await this.spawnWalletNpcsForNfts(nfts, placements);
 
             if (requestId !== this.currentWalletRequest) return;
@@ -5382,11 +5419,11 @@ const playCelebrationSound = () => {
             const blankCount = nfts.length - imageCount;
             if (blankCount > 0) {
                 setWalletStatus(
-                    `Spawned ${nfts.length} NFT NPCs for ${shortWalletAddress(walletData.address)}. ${blankCount} monitors fell back to text because their images would not load.`,
+                    `Spawned ${nfts.length} ${getChainMeta(walletData.chain)?.label || 'wallet'} NFT NPCs for ${shortWalletAddress(walletData.address)}. ${blankCount} monitors fell back to text because their images would not load.`,
                     false
                 );
             } else {
-                setWalletStatus(`Spawned ${nfts.length} NFT NPCs for ${shortWalletAddress(walletData.address)}.`, false);
+                setWalletStatus(`Spawned ${nfts.length} ${getChainMeta(walletData.chain)?.label || 'wallet'} NFT NPCs for ${shortWalletAddress(walletData.address)}.`, false);
             }
             this.css3dScreen.showToast(`Spawned ${nfts.length} NFT NPCs`);
         }
