@@ -30,6 +30,19 @@ This repo contains the core playable prototype:
 
 The result is a silly but strong GameFi loop: connect identity, inventory, and action into one immediate experience.
 
+## Market Read
+
+The NFT market is no longer in the 2022 fever cycle where every animal picture with a roadmap could briefly pretend it was infrastructure. That is the point.
+
+There are thousands of collections with holders, art, metadata, Discord history, and emotional baggage, but no current reason to click them. NFT Massacre gives those dormant assets a second life by making them playable. A dead collection does not need to become blue-chip again to be useful. It can become an enemy class, a seasonal event, a wallet boss, or a joke people actually share.
+
+That creates two useful angles:
+
+- collection revival: communities can turn old NFTs into game content, quests, arenas, or PvP factions
+- emotional utility: holders who are irritated by bad trades, dead floors, or bags they refuse to sell can symbolically kill their NFTs instead
+
+The product insight is simple: even a bad hold can become good content.
+
 ## Why This Fits A Solana Hackathon
 
 Solana is a strong fit for this direction because the idea gets better when:
@@ -47,6 +60,18 @@ The hackathon framing is simple:
 - add rewards, badges, or progression on Solana
 
 Today, this repo already proves the funniest and most important part: the moment your wallet turns into a crowd of NPCs and starts regretting its life choices.
+
+## Why Ethereum Still Matters
+
+This is Solana-first for the hackathon, but it intentionally supports Ethereum because many of the most undead NFT collections live there. Ethereum is where a lot of the 2021-2022 cultural memory, bad entries, abandoned mints, and zombie communities still sit.
+
+Supporting Ethereum turns the game into a bridge between eras:
+
+- Solana provides the fast, cheap, hackathon-forward gameplay layer
+- Ethereum provides a huge graveyard of recognizable NFT assets to resurrect, fight, rank, or retire
+- multichain support lets the joke travel beyond one ecosystem
+
+That matters commercially because the addressable content pool is not just new Solana assets. It is the long tail of old NFT collections that still have holders and stories.
 
 ## Current Repo Status
 
@@ -68,6 +93,7 @@ What still belongs on the near-term roadmap:
 - richer Solana NFT and compressed asset support
 - onchain rewards, achievements, or progression
 - competitive or cooperative GameFi loops beyond the current combat sandbox
+- wallet-vs-wallet PvP where collections fight each other across chains
 
 ## Gameplay Loop
 
@@ -93,6 +119,21 @@ It turns wallet state into interactive game state:
 - collectible metadata becomes visual identity
 
 That is the core GameFi idea here: your inventory is not adjacent to the game. Your inventory is the game.
+
+## Future PvP: Wallets As Teams
+
+The obvious next version is PvP between wallets.
+
+Instead of one player fighting their own portfolio, two wallets could load into the same arena as opposing rosters. Solana NFTs could fight Ethereum NFTs. Collection communities could challenge each other. A wallet full of dead mints could become an underdog team. A whale wallet could become a raid boss.
+
+That creates a stronger competitive loop:
+
+- wallet composition becomes team composition
+- chains and collections become factions
+- NFT metadata can determine abilities, skins, classes, or rarity modifiers
+- matches can produce onchain badges, rankings, or seasonal rewards
+
+The joke is "my NFTs can beat up your NFTs." The business version is wallet-native PvP built from existing onchain inventories.
 
 ## Tech Stack
 
