@@ -7,7 +7,7 @@ import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { VOXLoader, VOXMesh } from 'three/addons/loaders/VOXLoader.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
-import { detectWalletChain, getChainMeta, loadWalletData, SOLANA_DEMO_WALLET } from './walletloader/app.js?v=20260408multichain4';
+import { detectWalletChain, getChainMeta, loadWalletData, SOLANA_DEMO_WALLET } from './walletloader/app.js?v=20260504solanahackathon1';
 
 const loadingOverlay = typeof document !== 'undefined' ? document.getElementById('loading-overlay') : null;
 const killOverlay = typeof document !== 'undefined' ? document.getElementById('kill-overlay') : null;
@@ -5248,6 +5248,10 @@ const playCelebrationSound = () => {
             );
             if (!presetAddress) return;
             this.walletAddressInput.value = presetAddress;
+            if (url.searchParams.get('solanademo') === 'yes') {
+                setWalletStatus('Solana hackathon demo loaded: turning the preset wallet into an NPC target roster.');
+                this.css3dScreen?.showToast?.('Solana hackathon demo wallet loaded');
+            }
             this.loadWalletNfts(presetAddress);
         }
 
@@ -5368,7 +5372,7 @@ const playCelebrationSound = () => {
                 this.restoreDefaultNpc();
                 this.updateWalletQuery('');
                 setWalletChainIndicator(null);
-                setWalletStatus('Enter an Ethereum or Solana address to spawn NFT NPCs into NFT Massacre.', false);
+                setWalletStatus('Solana hackathon build: enter a Solana wallet, or use ?solanademo=yes, to spawn wallet NFTs as NPCs.', false);
                 return;
             }
 
@@ -5383,7 +5387,10 @@ const playCelebrationSound = () => {
             }
 
             setWalletChainIndicator(detectedChain.chain);
-            setWalletStatus(`Loading ${getChainMeta(detectedChain.chain)?.label || 'wallet'} NFTs into the neighborhood...`);
+            const loadingPrefix = detectedChain.chain === 'solana'
+                ? 'Loading Solana hackathon wallet NFTs into the arena...'
+                : `Loading ${getChainMeta(detectedChain.chain)?.label || 'wallet'} NFTs into the neighborhood...`;
+            setWalletStatus(loadingPrefix);
 
             let walletData;
             try {
@@ -5414,7 +5421,10 @@ const playCelebrationSound = () => {
             }
 
             const placements = this.world.reserveNftPlacements(nfts.length, walletData.address);
-            setWalletStatus(`Spawning ${nfts.length} ${getChainMeta(walletData.chain)?.label || 'wallet'} NFT NPCs for ${shortWalletAddress(walletData.address)}...`);
+            const spawnPrefix = walletData.chain === 'solana'
+                ? `Solana hackathon mode: spawning ${nfts.length} NFT NPCs for ${shortWalletAddress(walletData.address)}...`
+                : `Spawning ${nfts.length} ${getChainMeta(walletData.chain)?.label || 'wallet'} NFT NPCs for ${shortWalletAddress(walletData.address)}...`;
+            setWalletStatus(spawnPrefix);
             const imageCount = await this.spawnWalletNpcsForNfts(nfts, placements);
 
             if (requestId !== this.currentWalletRequest) return;
@@ -5426,7 +5436,10 @@ const playCelebrationSound = () => {
                     false
                 );
             } else {
-                setWalletStatus(`Spawned ${nfts.length} ${getChainMeta(walletData.chain)?.label || 'wallet'} NFT NPCs for ${shortWalletAddress(walletData.address)}.`, false);
+                const successMessage = walletData.chain === 'solana'
+                    ? `Solana hackathon arena live: spawned ${nfts.length} wallet NFT NPCs for ${shortWalletAddress(walletData.address)}.`
+                    : `Spawned ${nfts.length} ${getChainMeta(walletData.chain)?.label || 'wallet'} NFT NPCs for ${shortWalletAddress(walletData.address)}.`;
+                setWalletStatus(successMessage, false);
             }
             this.css3dScreen.showToast(`Spawned ${nfts.length} NFT NPCs`);
         }

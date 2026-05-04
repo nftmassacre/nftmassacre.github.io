@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NFT Massacre</title>
-    <link rel="stylesheet" href="styles.css?v=20260408multichain4">
+    <link rel="stylesheet" href="styles.css?v=20260504solanahackathon1">
 </head>
 <body>
     <div id="url-overlay">
@@ -18,9 +18,12 @@
         <div class="hud-topbar">
             <div class="title-group">
                 <div id="title">NFT Massacre</div>
-                <div id="subtitle">Kill All NFTs in your wallet</div>
+                <div id="subtitle">Solana Hackathon Edition</div>
             </div>
             <button id="about-toggle" class="info-button" type="button" aria-label="Info" title="Info">i</button>
+        </div>
+        <div class="hackathon-ribbon">
+            Entire game modified for the Solana hackathon: wallet NFTs become live targets, demo flow included.
         </div>
         <div id="hint">Click to walk, move the mouse to look, WASD to move, ESC to free the cursor. Press Space to jump and left click to punch.</div>
         <form id="wallet-form" class="wallet-form-overlay">
@@ -28,7 +31,7 @@
             <button type="submit">Load NFTs</button>
         </form>
         <div id="wallet-chain-indicator" class="chain-indicator" hidden></div>
-        <div id="wallet-status" class="wallet-status">Enter an Ethereum or Solana address to spawn NFT NPCs into NFT Massacre.</div>
+        <div id="wallet-status" class="wallet-status">Solana hackathon build: enter a Solana wallet, or use ?solanademo=yes, to spawn wallet NFTs as NPCs.</div>
         <div id="target-label">Current target: <span id="current-target-name">None</span><img id="current-target-preview" src="" alt="target preview"></div>
     </div>
     <div id="toast-container"></div>
@@ -41,7 +44,7 @@
     <div id="loading-overlay" class="overlay">
         <div class="overlay-card loading-card">
             <p class="overlay-title">Loading NFT Massacre</p>
-            <p class="overlay-subtitle">Kill All NFTs in your wallet</p>
+            <p class="overlay-subtitle">Solana hackathon build: every wallet asset becomes playable content</p>
         </div>
     </div>
     <div id="kill-overlay" class="overlay hidden">
@@ -52,10 +55,11 @@
     <div id="about-overlay" class="about-overlay hidden" aria-hidden="true">
         <div class="about-card" role="dialog" aria-modal="true" aria-labelledby="about-title">
             <button id="about-close" class="about-close" type="button" aria-label="Close info">Close</button>
-            <div class="about-badge">Info</div>
+            <div class="about-badge">Solana Hackathon Build</div>
             <h2 id="about-title">About NFT Massacre</h2>
-            <p>Originally created by Decentricity.</p>
-            <p>Forked and maintained by the GitHub account <strong>najmiabo</strong>.</p>
+            <p>This version was modified end-to-end for the Solana hackathon: the HUD, demo flow, wallet loading, and gameplay loop all point at wallet-native GameFi.</p>
+            <p>Solana support turns wallet NFTs into NPCs, making a player's owned assets become the level content, target roster, and pitch-ready demo moment.</p>
+            <p>Originally created by Decentricity. Forked and maintained by the GitHub account <strong>najmiabo</strong>.</p>
         </div>
     </div>
     <input type="file" id="world-object-input" accept=".glb,.gltf,.obj,.fbx,.stl,.ply,.vox" hidden>
@@ -70,6 +74,6 @@
             }
         }
     </script>
-    <script type="module" src="app.js?v=20260408multichain4"></script>
+    <script type="module" src="app.js?v=20260504solanahackathon1"></script>
 </body>
 </html>
