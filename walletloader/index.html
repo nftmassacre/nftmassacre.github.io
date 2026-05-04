@@ -3,15 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wallet Loader</title>
-    <link rel="stylesheet" href="./styles.css?v=20260408multichain4">
+    <title>Solana Hackathon Wallet Loader</title>
+    <link rel="stylesheet" href="./styles.css?v=20260504solanahackathon1">
   </head>
   <body>
     <main class="shell">
       <section class="hero">
-        <p class="eyebrow">Multichain Wallet Loader</p>
-        <h1>Load coins, tokens, and NFTs from a wallet address.</h1>
-        <p class="lede">Paste an Ethereum or Solana address to enumerate fungible assets and NFTs, including image previews and direct links to embedded NFT media when available.</p>
+        <p class="eyebrow">Solana Hackathon Wallet Loader</p>
+        <h1>Turn wallet assets into game content.</h1>
+        <p class="lede">This loader was modified for the Solana hackathon demo: paste a Solana wallet to inspect tokens and NFTs before they become NPCs inside NFT Massacre.</p>
+        <p class="hackathon-note">The full game build uses this wallet data as the enemy roster, proving the pitch that a player's onchain inventory can become playable GameFi content.</p>
 
         <form id="walletForm" class="wallet-form">
           <label class="sr-only" for="addressInput">Wallet address</label>
@@ -20,7 +21,7 @@
         </form>
         <div id="chainIndicator" class="chain-indicator" hidden></div>
 
-        <p id="status" class="status">Enter an Ethereum or Solana address to begin.</p>
+        <p id="status" class="status">Enter a Solana wallet for the hackathon flow, or use Ethereum for the multichain fallback.</p>
       </section>
 
       <section class="summary" id="summary" hidden></section>
@@ -50,6 +51,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js"></script>
-    <script type="module" src="./app.js?v=20260408multichain4"></script>
+    <script type="module" src="./app.js?v=20260504solanahackathon1"></script>
   </body>
 </html>

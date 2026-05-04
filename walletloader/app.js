@@ -1226,7 +1226,10 @@ async function loadWallet(rawAddress) {
   url.searchParams.set("address", address);
   window.history.replaceState({}, "", url);
 
-  setStatus(`Loading ${chainMeta?.label || "wallet"} fungible assets and NFTs...`);
+  const loadingMessage = detected.chain === "solana"
+    ? "Loading Solana hackathon wallet assets for game-content inspection..."
+    : `Loading ${chainMeta?.label || "wallet"} fungible assets and NFTs...`;
+  setStatus(loadingMessage);
 
   try {
     const walletData = await loadWalletData(address);
@@ -1238,7 +1241,10 @@ async function loadWallet(rawAddress) {
     renderSummary(walletData.address, walletData.fungibles, walletData.nfts);
     renderFungibles(walletData.fungibles);
     renderNfts(walletData.nfts);
-    setStatus(`Loaded ${walletData.fungibles.length} fungible assets and ${walletData.nfts.length} NFTs for ${shortAddress(walletData.address)} on ${getChainMeta(walletData.chain)?.label || "that chain"}.`);
+    const loadedMessage = walletData.chain === "solana"
+      ? `Solana hackathon wallet ready: ${walletData.fungibles.length} fungible assets and ${walletData.nfts.length} NFTs can feed the game loop for ${shortAddress(walletData.address)}.`
+      : `Loaded ${walletData.fungibles.length} fungible assets and ${walletData.nfts.length} NFTs for ${shortAddress(walletData.address)} on ${getChainMeta(walletData.chain)?.label || "that chain"}.`;
+    setStatus(loadedMessage);
   } catch (error) {
     if (requestId !== activeRequest) {
       return;
